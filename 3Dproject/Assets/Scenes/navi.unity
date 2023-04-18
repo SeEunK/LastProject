@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2490,37 +2490,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1034757118, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: mTarget
-      value: 
-      objectReference: {fileID: 515047307}
+    - target: {fileID: 1034757116, guid: 169367075a41af848b3be61e258dd946, type: 3}
+      propertyPath: m_Height
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034757116, guid: 169367075a41af848b3be61e258dd946, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360397206, guid: 169367075a41af848b3be61e258dd946, type: 3}
+      propertyPath: m_Center.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1360397206, guid: 169367075a41af848b3be61e258dd946, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1360397207, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1360397207, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: m_Constraints
-      value: 80
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1360397207, guid: 169367075a41af848b3be61e258dd946, type: 3}
       propertyPath: m_CollisionDetection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2932535572141818729, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: mSpeed
+      propertyPath: mJumpForce
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2932535572141818729, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: mJumpSpeed
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 2932535572141818729, guid: 169367075a41af848b3be61e258dd946, type: 3}
-      propertyPath: mTurnSpeed
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5028243096567019231, guid: 169367075a41af848b3be61e258dd946, type: 3}
       propertyPath: m_Name
@@ -2536,7 +2528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5659961332156312677, guid: 169367075a41af848b3be61e258dd946, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.36
       objectReference: {fileID: 0}
     - target: {fileID: 5659961332156312677, guid: 169367075a41af848b3be61e258dd946, type: 3}
       propertyPath: m_LocalPosition.z
