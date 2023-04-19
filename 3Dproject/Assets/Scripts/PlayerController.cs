@@ -107,6 +107,11 @@ public class PlayerController : MonoBehaviour {
             Interation();
         }
 
+        if(Input.GetButtonDown("Drop") && mIsCarryItem)
+        {
+            mAnim.SetTrigger("PutDown");
+        }
+
         if (Input.GetButtonDown("ToolSwap1")|| Input.GetButtonDown("ToolSwap2")|| Input.GetButtonDown("ToolSwap3")|| Input.GetButtonDown("ToolSwap4") && !mIsJump)
         {
             int swapIndex = -1;
@@ -243,9 +248,6 @@ public class PlayerController : MonoBehaviour {
                 mPickUpItem = mDetectedObject;
                 mAnim.SetTrigger("PickUp");
                
-                
-                
-               
                 //Destroy(mDetectedObject);
             }
         }
@@ -256,9 +258,10 @@ public class PlayerController : MonoBehaviour {
         if (mPickUpItem != null)
         {
             Item item = mPickUpItem.GetComponent<Item>();
+            item.PickUp(mPickItemPos);
             mItemList.Add(item);
-            mPickUpItem.transform.position = mPickItemPos.position;
-            mPickUpItem.transform.SetParent(mPickItemPos);
+           
+        
             mIsCarryItem = true;
         }
     }
@@ -266,13 +269,14 @@ public class PlayerController : MonoBehaviour {
 
     public void ItemPutDown()
     {
-        if( mPickUpItem != null)
+        if(mPickUpItem != null)
         {
+            Vector3 dropPos = mPickItemPos.position;
             Item item = mPickUpItem.GetComponent<Item>();
             mItemList.Remove(item);
-
-            mPickUpItem.transform.SetParent(null);
-            mIsCarryItem= false;
+            item.Drop(dropPos);
+           
+            mIsCarryItem = false;
         }
     }
 
@@ -285,8 +289,8 @@ public class PlayerController : MonoBehaviour {
             mIsJump = false;
         }
     }
-
-
+ 
+    
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Tool"))
