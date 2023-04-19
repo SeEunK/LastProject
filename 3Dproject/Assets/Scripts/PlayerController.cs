@@ -148,6 +148,11 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        if(Input.GetButtonDown("UnEquip") && mEquipTool != null)
+        {
+            UnEquipItem();
+        }
+
         if (Input.GetMouseButtonDown(0) && !mIsAutoMove && !mIsJump)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -241,14 +246,16 @@ public class PlayerController : MonoBehaviour {
                 mHasTools[toolIndex] = true;
 
                 Destroy(mDetectedObject);
+                mDetectedObject = null;
             }
             else if (mDetectedObject.CompareTag("Item"))
             {
                 Debug.Log("detected item");
+                UnEquipItem();
                 mPickUpItem = mDetectedObject;
                 mAnim.SetTrigger("PickUp");
-               
-                //Destroy(mDetectedObject);
+                mDetectedObject = null;
+                
             }
         }
     }
@@ -266,6 +273,13 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void UnEquipItem()
+    {
+        if (mEquipTool != null)
+        {
+            mEquipTool.SetActive(false);
+        }
+    }
 
     public void ItemPutDown()
     {
@@ -289,20 +303,36 @@ public class PlayerController : MonoBehaviour {
             mIsJump = false;
         }
     }
- 
-    
-    private void OnCollisionStay(Collision collision)
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Tool"))
+    
+        if (other.gameObject.CompareTag("Tool"))
         {
-            mDetectedObject = collision.gameObject;
+            mDetectedObject = other.gameObject;
         }
 
 
-        if (collision.gameObject.CompareTag("Item"))
+        if (other.gameObject.CompareTag("Item"))
         {
-            mDetectedObject = collision.gameObject;
+            mDetectedObject = other.gameObject;
             Debug.Log(mDetectedObject.name);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Tool"))
+        {
+            mDetectedObject = null;
+        }
+
+
+        if (other.gameObject.CompareTag("Item"))
+        {
+            mDetectedObject = null;
+            
         }
     }
 

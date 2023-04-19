@@ -1,38 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
     private const float Y_ANGLE_MIN = 0.0f;
-    private const float Y_ANGLE_MAX = 50.0f;
+    private const float Y_ANGLE_MAX = 180.0f;
 
-    public Transform lookAt;
-    public Transform camTransform;
-    public float distance = 5.0f;
+    public Transform mLookAt;
+    public Vector3 mCamOffset;
 
-    private float currentX = 0.0f;
-    private float currentY = 45.0f;
-   
+    private float mMouseX = 0.0f;
+    private float mMouseY = 0.0f;
 
-    private void Start()
+
+    private bool mIsCameraRotation = false;
+    private Vector3 mClickPos = Vector2.zero;
+    private Quaternion mPrevCamRotation;
+
+    private void Awake()
     {
-        camTransform = transform;
+        mCamOffset = new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        mLookAt = GameObject.FindWithTag("Player").transform;
+        mPrevCamRotation = this.transform.rotation;
     }
 
     private void Update()
     {
-        currentX += Input.GetAxis("Mouse X");
-        currentY += Input.GetAxis("Mouse Y");
+        this.transform.position = mLookAt.position + mCamOffset;
 
-        currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+        // 마우스 휠 클릭
+        if(Input.GetMouseButtonDown(2))
+        {
+            mIsCameraRotation = true;
+            mClickPos = this.transform.position;
+            mPrevCamRotation = this.transform.rotation;
+        }
+    
+        if (Input.GetMouseButtonUp(2))
+        {
+            mIsCameraRotation = false;
+            this.transform.position = mClickPos;
+            this.transform.rotation = mPrevCamRotation;
+        }
+
+        if (mIsCameraRotation)
+        {
+            this.transform.rotation = mPrevCamRotation;
+
+            float mDeltaX = Input.GetAxis("Mouse X");
+            float mDeltaY = Input.GetAxis("Mouse Y");
+
+
+            mMouseX += mDeltaX;
+            mMouseY += mDeltaY;
+
+            mMouseY = Mathf.Clamp(mMouseY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+            Quaternion rotation = Quaternion.Euler(mMouseY, mMouseX, 0);
+            this.transform.rotation = mPrevCamRotation*rotation;
+                    
+           
+        }
+
     }
 
-    private void LateUpdate()
-    {
-        Vector3 dir = new Vector3(0, 0, -distance);
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        camTransform.position = lookAt.position + rotation * dir;
-        camTransform.LookAt(lookAt.position);
-    }
+
 }
