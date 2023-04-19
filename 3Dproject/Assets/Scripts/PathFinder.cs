@@ -6,12 +6,23 @@ using UnityEngine.UIElements;
 
 public class PathFinder : MonoBehaviour
 {
+    public static PathFinder Instance;
     public NavMeshAgent mNavMeshAgent = null;
     public Vector3[] mPath = null;
 
     public void Awake()
     {
-        this.Init();
+        if (Instance == null)
+        {
+            Instance = this;
+            Instance.Init();
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+       
     }
 
     public void Init()
@@ -25,6 +36,7 @@ public class PathFinder : MonoBehaviour
 
     public Vector3[] GetPath(Vector3 start, Vector3 ended)
     {
+        ResetPath();
         NavMeshPath path = new NavMeshPath();
 
         this.transform.position = start;
@@ -34,7 +46,13 @@ public class PathFinder : MonoBehaviour
             mPath = path.corners;
             return mPath;
         }
-
         return null;
+    }
+
+ 
+
+    public void ResetPath()
+    {
+        mPath = null;
     }
 }
