@@ -40,9 +40,13 @@ public class Item : MonoBehaviour
 
     public void SetCarryItem(bool isCarryItem)
     {
-        Collider itemCollider = transform.GetComponent<Collider>();
+        Collider[] itemColliders = transform.GetComponents<Collider>();
         Rigidbody itemRigid = transform.GetComponent<Rigidbody>();
-        itemCollider.enabled = !isCarryItem;
+        for (int i = 0; i < itemColliders.Length; i++)
+        {
+            itemColliders[i].enabled = !isCarryItem;
+        }
+       
         itemRigid.isKinematic = isCarryItem;
     }
 

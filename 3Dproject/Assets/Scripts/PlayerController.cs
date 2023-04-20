@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour {
     private Vector3 mMoveDirection = Vector3.zero;
     public float gravity = Physics.gravity.magnitude;
     private bool mIsAutoMove  = false;
-    public bool mIsJump = false;
     public float mJumpForce = 10.0f;
    
 
@@ -28,13 +27,21 @@ public class PlayerController : MonoBehaviour {
     private bool[] mHasTools = null;
     private GameObject mDetectedObject = null;
     private GameObject mEquipTool= null;
+    private int mEquipToolId = -1;
+    private Collider mEquipToolCollider = null;
+
 
     private List<Item> mItemList = new List<Item>();
     [SerializeField]
     private Transform mPickItemPos = null;
     private GameObject mPickUpItem = null;
+    private GameObject mGatheringItem = null;
 
+    public bool mIsJump = false;
     public bool mIsCarryItem = false;
+
+    public enum State { None, Jump, Carry, Fishing }
+    private State mState = State.None;
 
     void Awake()
     {
@@ -58,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 
             // run(left shift 키 입력 시 최대 1, 안누르면 0.5f) 상태 값 
             float offset = 0.5f + Input.GetAxis("Run") * 0.5f;
-            if (!mIsCarryItem)
+            if (mState != State.Carry)
             {
                 // -1: back  0 : center 1 : forward 
                 mAnim.SetFloat("Vertical", mVerticalAxis * offset);
@@ -83,8 +90,6 @@ public class PlayerController : MonoBehaviour {
             mMoveDirection = new Vector3(mHorizontalAxis, 0, mVerticalAxis);
             transform.position += mMoveDirection * moveSpeed * Time.deltaTime;
 
-
-
             transform.LookAt(transform.position + mMoveDirection.normalized);
 
         }
@@ -107,9 +112,19 @@ public class PlayerController : MonoBehaviour {
             Interation();
         }
 
-        if(Input.GetButtonDown("Drop") && mIsCarryItem)
+        if(Input.GetButtonDown("Drop") && mState == State.Carry)
         {
             mAnim.SetTrigger("PutDown");
+        }
+
+        if(mState == State.Fishing)
+        {
+            if (Input.GetButtonDown("UnEquip"))
+            {
+                mAnim.SetTrigger("FishingCancle");
+                mState = State.None;
+                return;
+            }
         }
 
         if (Input.GetButtonDown("ToolSwap1")|| Input.GetButtonDown("ToolSwap2")|| Input.GetButtonDown("ToolSwap3")|| Input.GetButtonDown("ToolSwap4") && !mIsJump)
@@ -230,7 +245,10 @@ public class PlayerController : MonoBehaviour {
         {
             mEquipTool.SetActive(false);
         }
+        mEquipToolId = ToolIndex + 1;
         mEquipTool = mTools[ToolIndex];
+        mEquipToolCollider = mEquipTool.GetComponent<Collider>();
+        mEquipToolCollider.enabled = false;
         mEquipTool.SetActive(true);
 
     }
@@ -251,14 +269,90 @@ public class PlayerController : MonoBehaviour {
             else if (mDetectedObject.CompareTag("Item"))
             {
                 Debug.Log("detected item");
-                UnEquipItem();
-                mPickUpItem = mDetectedObject;
-                mAnim.SetTrigger("PickUp");
-                mDetectedObject = null;
+                if (mEquipTool != null)
+                {
+                    Debug.Log("장비 장착중");
+                    mDetectedObject = null;
+                    return;
+                }
+                else
+                {
+                    Debug.Log("장비 미장착 픽업!");
+                    mPickUpItem = mDetectedObject;
+                    mAnim.SetTrigger("PickUp");
+                    mDetectedObject = null;
+                }
                 
+            }
+
+            else if (mDetectedObject.CompareTag("Interaction"))
+            {
+                Debug.Log("detected Interaction");
+
+                if (CheckEquipItem())
+                {
+                    InteractionAction();
+                }
+                else
+                {
+                    Debug.Log("Interaction tool mismatch");
+                } 
+
             }
         }
     }
+
+    public bool CheckEquipItem()
+    {
+        Interaction interaction = mDetectedObject.GetComponent<Interaction>();
+        if (mEquipTool == null)
+        {
+            if(interaction.GetInteractionType() == Interaction.Type.Gathering)
+            {
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            if(mEquipToolId == interaction.GetAvailableToolId())
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogFormat("tool id : {0}가 필요합니다.", interaction.GetAvailableToolId());
+                return false;
+            }
+        }
+    }
+
+    public void InteractionAction()
+    {
+        Interaction interaction = mDetectedObject.GetComponent<Interaction>();
+        Interaction.Type type = interaction.GetInteractionType();
+
+        switch(type)
+        {
+            case Interaction.Type.Farming:
+                mAnim.SetTrigger("Farming");
+                break;
+            case Interaction.Type.Fishing:
+                mState = State.Fishing;
+                mAnim.SetTrigger("Fishing");
+                break;
+            case Interaction.Type.Mining:
+                mAnim.SetTrigger("Mining");
+                break;
+            case Interaction.Type.Crafting:
+                mAnim.SetTrigger("Hammering");
+                break;
+            case Interaction.Type.Gathering:
+                mAnim.SetTrigger("Gathering");
+                break;
+        }
+    }
+
 
     public void ItemPickUp()
     {
@@ -267,9 +361,11 @@ public class PlayerController : MonoBehaviour {
             Item item = mPickUpItem.GetComponent<Item>();
             item.PickUp(mPickItemPos);
             mItemList.Add(item);
+            
+            mState = State.Carry;
            
         
-            mIsCarryItem = true;
+            //mIsCarryItem = true;
         }
     }
 
@@ -277,7 +373,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (mEquipTool != null)
         {
+            mEquipToolId = -1;
             mEquipTool.SetActive(false);
+            mEquipTool = null;
         }
     }
 
@@ -289,8 +387,8 @@ public class PlayerController : MonoBehaviour {
             Item item = mPickUpItem.GetComponent<Item>();
             mItemList.Remove(item);
             item.Drop(dropPos);
-           
-            mIsCarryItem = false;
+            mState = State.None;
+            //mIsCarryItem = false;
         }
     }
 
@@ -305,7 +403,7 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
     
         if (other.gameObject.CompareTag("Tool"))
@@ -318,6 +416,11 @@ public class PlayerController : MonoBehaviour {
         {
             mDetectedObject = other.gameObject;
             Debug.Log(mDetectedObject.name);
+        }
+
+        if (other.gameObject.CompareTag("Interaction"))
+        {
+            mDetectedObject = other.gameObject;
         }
     }
 
@@ -334,8 +437,45 @@ public class PlayerController : MonoBehaviour {
             mDetectedObject = null;
             
         }
+
+        if (other.gameObject.CompareTag("Interaction"))
+        {
+            mDetectedObject = null;
+        }
     }
 
+    public void ToolTriggerEnableOn()
+    {
+        mEquipToolCollider.enabled = true;
+    }
 
+    public void ToolTriggerEnableOff()
+    {
+        mEquipToolCollider.enabled = false;
+    }
 
+    public void GatheringItem()
+    {
+        if(mGatheringItem != null)
+        {
+
+            Item item = mGatheringItem.GetComponent<Item>();
+            item.PickUp(mPickItemPos);
+            item.gameObject.SetActive(true);
+            mItemList.Add(item);
+
+            mState = State.Carry;
+        }
+    }
+
+    public void SetGatheringItem(GameObject item)
+    {
+        item.SetActive(false);
+
+        mGatheringItem = item;
+    }
+    public Transform GetHandPos()
+    {
+        return mPickItemPos;
+    }
 }
