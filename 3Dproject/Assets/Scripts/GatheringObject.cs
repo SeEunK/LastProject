@@ -93,8 +93,9 @@ public class GatheringObject : MonoBehaviour
             {
                 if (mResultItem != null)
                 {
-
-                    other.GetComponent<PlayerController>().SetGatheringItem(Instantiate(mResultItem));
+                    Vector3 newPos = other.GetComponent<PlayerController>().GetHandPos().position;
+                    Instantiate(mResultItem, newPos, transform.rotation);
+                    other.GetComponent<PlayerController>().SetGatheringItem(gameObject);
 
                     
                 }

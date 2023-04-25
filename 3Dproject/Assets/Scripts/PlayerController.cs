@@ -247,6 +247,7 @@ public class PlayerController : MonoBehaviour {
         }
         mEquipToolId = ToolIndex + 1;
         mEquipTool = mTools[ToolIndex];
+        UIManager.Instance.EquipToolChange(mEquipToolId);
         mEquipToolCollider = mEquipTool.GetComponent<Collider>();
         mEquipToolCollider.enabled = false;
         mEquipTool.SetActive(true);
@@ -374,6 +375,7 @@ public class PlayerController : MonoBehaviour {
         if (mEquipTool != null)
         {
             mEquipToolId = -1;
+            UIManager.Instance.EquipToolChange(mEquipToolId);
             mEquipTool.SetActive(false);
             mEquipTool = null;
         }
