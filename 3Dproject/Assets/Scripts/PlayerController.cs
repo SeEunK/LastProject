@@ -241,15 +241,18 @@ public class PlayerController : MonoBehaviour {
     }
     public void ToolSwap(int ToolIndex)
     {
-        if(mEquipTool != null)
+        if (mEquipTool != null)
         {
             mEquipTool.SetActive(false);
         }
         mEquipToolId = ToolIndex + 1;
         mEquipTool = mTools[ToolIndex];
         UIManager.Instance.EquipToolChange(mEquipToolId);
-        mEquipToolCollider = mEquipTool.GetComponent<Collider>();
-        mEquipToolCollider.enabled = false;
+        if (mEquipTool.GetComponent<Collider>() != null)
+        {
+            mEquipToolCollider = mEquipTool.GetComponent<Collider>();
+            mEquipToolCollider.enabled = false;
+        }
         mEquipTool.SetActive(true);
 
     }
