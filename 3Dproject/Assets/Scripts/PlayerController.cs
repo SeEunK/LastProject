@@ -50,6 +50,14 @@ public class PlayerController : MonoBehaviour {
         mRigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
+     void Start()
+    {
+        if (DataManager.instance.GetPlayerEquipItem() != -1)
+        {
+            ToolSwap(DataManager.instance.GetPlayerEquipItem());
+        }
+        
+    }
     void Update()
     {
 
@@ -247,6 +255,7 @@ public class PlayerController : MonoBehaviour {
         }
         mEquipToolId = ToolIndex + 1;
         mEquipTool = mTools[ToolIndex];
+        DataManager.instance.SetPlayerEquipItem(ToolIndex);
         UIManager.Instance.EquipToolChange(mEquipToolId);
         if (mEquipTool.GetComponent<Collider>() != null)
         {
@@ -379,6 +388,7 @@ public class PlayerController : MonoBehaviour {
         {
             mEquipToolId = -1;
             UIManager.Instance.EquipToolChange(mEquipToolId);
+            DataManager.instance.SetPlayerEquipItem(mEquipToolId);
             mEquipTool.SetActive(false);
             mEquipTool = null;
         }

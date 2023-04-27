@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    [SerializeField]
+    private TMP_Text mPlayerName;
 
     [SerializeField]
     private Sprite[] mTools = null;
@@ -30,7 +34,14 @@ public class UIManager : MonoBehaviour
 
     public void Init()
     {
+       
         mTools = Resources.LoadAll<Sprite>("Sprite/IconTools");
+    }
+
+    public void Start()
+    {
+        SetPlayerName(DataManager.instance.GetPlayerName());
+        EquipToolChange((DataManager.instance.GetPlayerEquipItem()+1));
     }
 
     public void EquipToolChange(int toolId)
@@ -64,7 +75,16 @@ public class UIManager : MonoBehaviour
         {
             mEquipTool.sprite = mTools[toolIndex];
         }
+           
     }
 
-    
+    public void SetPlayerName(string name)
+    {
+        mPlayerName.text = name;
+    }
+
+    public void Save()
+    {
+        DataManager.instance.SaveData();
+    }
 }
