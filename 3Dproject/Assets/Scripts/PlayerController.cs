@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour {
     public float gravity = Physics.gravity.magnitude;
     private bool mIsAutoMove  = false;
     public float mJumpForce = 10.0f;
-   
 
+    [SerializeField]
     private Vector3[] mAutoMovePos = null;
     private int mCurrentIndex = 0;
 
@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour {
 
     public enum State { None, Jump, Carry, Fishing }
     private State mState = State.None;
+
+    public Interactable mFocus;
+    [SerializeField]
+    private float mStopDistance = 0.0f;
 
     void Awake()
     {
@@ -181,14 +185,18 @@ public class PlayerController : MonoBehaviour {
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
+            mStopDistance = 1.0f;
+
             if (Physics.Raycast(ray, out hit, float.MaxValue))
             {
                 {
                     mAutoMovePos = PathFinder.Instance.GetPath(this.transform.position, hit.point);
 
-                    mIsAutoMove = true;
+                  
                     if (mAutoMovePos != null)
                     {
+                        mIsAutoMove = true;
                         for (int idx = 0; idx < mAutoMovePos.Length; ++idx)
                         {
                             GameObject pathObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -204,11 +212,28 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray, out hit, 100.0f)){
+                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                if(interactable!= null)
+                {
+                    SetFocus(interactable);
+                    mAutoMovePos = PathFinder.Instance.GetPath(this.transform.position, mFocus.GetInteractionTransform().position);
+
+                    mIsAutoMove = true;
+                }
+            }
+        }
         if (mIsAutoMove)
         {
 
             int maxIndex = mAutoMovePos.Length;
-            
+
+            Debug.Log("max index : " + maxIndex);
             // 이동 방향
             mMoveDirection = (mAutoMovePos[mCurrentIndex] - transform.position).normalized;
          
@@ -234,20 +259,57 @@ public class PlayerController : MonoBehaviour {
             transform.LookAt(transform.position + mMoveDirection);
 
 
-            if (Vector3.Distance(transform.position,mAutoMovePos[mCurrentIndex])< 0.1f)
+            if (Vector3.Distance(transform.position,mAutoMovePos[mCurrentIndex])< mStopDistance)
             {
+                Debug.Log("curr index : " + mCurrentIndex);
                 mCurrentIndex++;
             }
             if (mCurrentIndex == maxIndex)
             {
+                Debug.Log("maxIndex: " + mCurrentIndex);
                 mCurrentIndex = 0;
                 PathFinder.Instance.ResetPath();
                 mIsAutoMove = false;
+                if (mFocus)
+                {
+                    RemoveFocus();
+
+                }
+                mStopDistance = 0.0f;
             }
 
         }
 
     }
+
+
+    public void SetFocus(Interactable newFocus)
+    {
+        if (newFocus != mFocus)
+        {
+            if (mFocus != null)
+            {
+                mFocus.OnDefocused();
+
+            }
+            mFocus = newFocus;
+            mStopDistance = newFocus.mRadius;
+        }
+
+        newFocus.OnFocused(this.transform);
+
+
+    }
+
+    public void RemoveFocus()
+    {
+        if (mFocus != null)
+        {
+            mFocus.OnDefocused();
+        }
+        mFocus = null;
+    }
+
     public void ToolSwap(int ToolIndex)
     {
         if (mEquipTool != null)
