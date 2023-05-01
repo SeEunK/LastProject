@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public enum Type { Tool, Item }
+    public enum Type { Equipment, Item }
     public Type mType;
     [SerializeField]
     private int mId = -1;
 
+    [SerializeField]
+    private ItemData mItemData;
 
     public Type GetItemType()
     {
@@ -21,6 +23,10 @@ public class Item : MonoBehaviour
         return mId; 
     }
 
+    public ItemData GetItemData()
+    {
+        return mItemData;   
+    }
 
     public void PickUp(Transform pickPos)
     {

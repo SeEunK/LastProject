@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
 
     public Image mEquipTool = null;
 
+    public GameObject mInventoryUI;
+
     public void Awake()
     {
         if (Instance == null)
@@ -31,7 +33,14 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
+    
+    private void Update()
+    {
+        if (Input.GetButtonDown("Inventory"))
+        {
+            mInventoryUI.SetActive(!mInventoryUI.activeSelf);
+        }
+    }
     public void Init()
     {
        

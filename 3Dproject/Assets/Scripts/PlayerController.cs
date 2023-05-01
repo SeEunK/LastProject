@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour {
 
      void Start()
     {
+        
         if (DataManager.instance.GetPlayerEquipItem() != -1)
         {
             ToolSwap(DataManager.instance.GetPlayerEquipItem());
@@ -272,12 +273,24 @@ public class PlayerController : MonoBehaviour {
         {
             if (mDetectedObject.CompareTag("Tool"))
             {
+
                 Item item = mDetectedObject.GetComponent<Item>();
-                int toolIndex = item.GetItemId()-1;
+
+
+                int toolIndex = item.GetItemId() - 1;
                 mHasTools[toolIndex] = true;
 
-                Destroy(mDetectedObject);
-                mDetectedObject = null;
+                bool getItem = Inventory.Instance.Add(item.GetItemData());
+                if (getItem)
+                {
+                    Destroy(mDetectedObject);
+                    mDetectedObject = null;
+                }
+
+            }
+            else if (mDetectedObject.CompareTag("Equipment"))
+            {
+
             }
             else if (mDetectedObject.CompareTag("Item"))
             {
@@ -373,8 +386,8 @@ public class PlayerController : MonoBehaviour {
         {
             Item item = mPickUpItem.GetComponent<Item>();
             item.PickUp(mPickItemPos);
-            mItemList.Add(item);
-            
+            //mItemList.Add(item);
+            Inventory.Instance.Add(item.GetItemData());
             mState = State.Carry;
            
         
@@ -400,7 +413,8 @@ public class PlayerController : MonoBehaviour {
         {
             Vector3 dropPos = mPickItemPos.position;
             Item item = mPickUpItem.GetComponent<Item>();
-            mItemList.Remove(item);
+            //mItemList.Remove(item);
+            Inventory.Instance.Remove(item.GetItemData());
             item.Drop(dropPos);
             mState = State.None;
             //mIsCarryItem = false;
@@ -477,7 +491,9 @@ public class PlayerController : MonoBehaviour {
             Item item = mGatheringItem.GetComponent<Item>();
             item.PickUp(mPickItemPos);
             item.gameObject.SetActive(true);
-            mItemList.Add(item);
+
+            //mItemList.Add(item);
+            Inventory.Instance.Add(item.GetItemData());
 
             mState = State.Carry;
         }

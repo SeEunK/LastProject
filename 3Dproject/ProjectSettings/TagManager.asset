@@ -8,6 +8,7 @@ TagManager:
   - Item
   - Tool
   - Interaction
+  - Equipment
   layers:
   - Default
   - TransparentFX
