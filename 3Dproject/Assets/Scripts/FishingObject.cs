@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiningObject : Interactable
+public class FishingObject : Interactable
 {
     public GameObject mResultItem = null;
 
     private Collider mCollider = null;
-    private MeshRenderer mRenderer= null;
+    private MeshRenderer mRenderer = null;
 
     [SerializeField]
     private int mResultItemMaxCount = 3;
@@ -16,7 +16,7 @@ public class MiningObject : Interactable
 
     private float mRefilWaitTime = 30.0f;
     private float mTimer = 0.0f;
-    public enum State {None, Empty, Full, Grow }
+    public enum State { None, Empty, Full, Grow }
     [SerializeField]
     private State mState;
 
@@ -39,7 +39,7 @@ public class MiningObject : Interactable
         if (mState == State.Empty)
         {
             mRenderer.enabled = false;
-            mCollider.enabled = false;  
+            mCollider.enabled = false;
             SetState(State.Grow);
         }
 
@@ -74,18 +74,19 @@ public class MiningObject : Interactable
     {
         mState = state;
     }
-    public GameObject GetResultItem() 
-    { 
-        return mResultItem; 
+    public GameObject GetResultItem()
+    {
+        return mResultItem;
     }
 
-    public int GetResultItemCount() 
-    { 
-        return mResultItemCount; 
+    public int GetResultItemCount()
+    {
+        return mResultItemCount;
     }
+
+
     public override void Interact()
     {
-        Debug.Log("mining " + transform.name);
 
         if (mResultItemCount > 0)
         {
@@ -93,6 +94,8 @@ public class MiningObject : Interactable
             {
                 Vector3 newPos = new Vector3(mPlayer.position.x + 1.0f, mPlayer.position.y + 1.0f, mPlayer.position.z + 1.0f);
                 Instantiate(mResultItem, newPos, transform.rotation);
+
+
             }
             mResultItemCount -= 1;
 
@@ -102,6 +105,6 @@ public class MiningObject : Interactable
             }
 
         }
-    }
 
+    }
 }

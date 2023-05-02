@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public float mRadius = 1.5f;
+    public enum Type { Mining, Fishing, Farming, Gathering, Crafting }
+
+    [SerializeField]
+    private Type mType;
+
+    [SerializeField]
+    private float mRadius = 1.5f;
     public Transform mInteractionTransform = null;
 
     private bool mIsFocus = false;
     private bool mHasInteracted = false;
-    private Transform mPlayer;
+    public Transform mPlayer;
+
+    [SerializeField]
+    private int mAvailableToolId = -1;
+
+    //private void Awake()
+    //{
+    //    mPlayer = GameObject.FindWithTag("Player").transform;
+    //}
 
     private void Update()
     {
@@ -28,6 +42,8 @@ public class Interactable : MonoBehaviour
     public virtual void Interact()
     {
         Debug.Log("interaction with "+ transform.name);
+      
+
     }
 
     public void OnFocused(Transform playerTransform)
@@ -44,9 +60,24 @@ public class Interactable : MonoBehaviour
         mHasInteracted = false;
     }
 
+   
     public Transform GetInteractionTransform() 
     { 
         return mInteractionTransform; 
+    }
+    public Type GetInteractionType()
+    {
+        return mType;
+    }
+
+    public int GetAvailableToolId()
+    {
+        return mAvailableToolId;
+    }
+
+    public float GetInteractRadius()
+    {
+        return mRadius;
     }
 
     private void OnDrawGizmosSelected()

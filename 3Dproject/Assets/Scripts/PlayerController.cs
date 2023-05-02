@@ -1,6 +1,7 @@
 using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour {
 
@@ -222,9 +223,21 @@ public class PlayerController : MonoBehaviour {
                 if(interactable!= null)
                 {
                     SetFocus(interactable);
-                    mAutoMovePos = PathFinder.Instance.GetPath(this.transform.position, mFocus.GetInteractionTransform().position);
-
-                    mIsAutoMove = true;
+                    
+                    float distance = Vector3.Distance(this.transform.position, mFocus.GetInteractionTransform().position);
+                    
+                    if (distance > mStopDistance)
+                    {
+                        mAutoMovePos = PathFinder.Instance.GetPath(this.transform.position, mFocus.GetInteractionTransform().position);
+                        mIsAutoMove = true;
+                    }
+                    else
+                    {
+                        mIsAutoMove = false;
+                        Interact();
+                        //interactable.Interact();
+                       
+                    }
                 }
             }
         }
@@ -233,7 +246,6 @@ public class PlayerController : MonoBehaviour {
 
             int maxIndex = mAutoMovePos.Length;
 
-            Debug.Log("max index : " + maxIndex);
             // 이동 방향
             mMoveDirection = (mAutoMovePos[mCurrentIndex] - transform.position).normalized;
          
@@ -259,23 +271,17 @@ public class PlayerController : MonoBehaviour {
             transform.LookAt(transform.position + mMoveDirection);
 
 
-            if (Vector3.Distance(transform.position,mAutoMovePos[mCurrentIndex])< mStopDistance)
+            if (Vector3.Distance(transform.position, mAutoMovePos[mCurrentIndex]) <= mStopDistance)
             {
-                Debug.Log("curr index : " + mCurrentIndex);
                 mCurrentIndex++;
             }
             if (mCurrentIndex == maxIndex)
             {
-                Debug.Log("maxIndex: " + mCurrentIndex);
                 mCurrentIndex = 0;
                 PathFinder.Instance.ResetPath();
                 mIsAutoMove = false;
-                if (mFocus)
-                {
-                    RemoveFocus();
-
-                }
-                mStopDistance = 0.0f;
+               
+                //mStopDistance = 0.0f;
             }
 
         }
@@ -293,7 +299,7 @@ public class PlayerController : MonoBehaviour {
 
             }
             mFocus = newFocus;
-            mStopDistance = newFocus.mRadius;
+            mStopDistance = newFocus.GetInteractRadius();
         }
 
         newFocus.OnFocused(this.transform);
@@ -331,6 +337,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Interation()
     {
+     
         if (mDetectedObject != null)
         {
             if (mDetectedObject.CompareTag("Tool"))
@@ -343,6 +350,7 @@ public class PlayerController : MonoBehaviour {
                 mHasTools[toolIndex] = true;
 
                 bool getItem = Inventory.Instance.Add(item.GetItemData());
+
                 if (getItem)
                 {
                     Destroy(mDetectedObject);
@@ -380,6 +388,7 @@ public class PlayerController : MonoBehaviour {
                 if (CheckEquipItem())
                 {
                     InteractionAction();
+                    
                 }
                 else
                 {
@@ -390,12 +399,31 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void Interact()
+    {
+        Debug.Log("interact (player)");
+        if(mFocus != null)
+        {
+            if (CheckEquipItem())
+            {
+                InteractAction();
+                mFocus.Interact();
+            }
+            else
+            {
+                Debug.Log("Interaction tool mismatch");
+            }
+        }
+    }
+
     public bool CheckEquipItem()
     {
-        Interaction interaction = mDetectedObject.GetComponent<Interaction>();
+        
+        //Interaction interaction = mDetectedObject.GetComponent<Interaction>();
+        
         if (mEquipTool == null)
         {
-            if(interaction.GetInteractionType() == Interaction.Type.Gathering)
+            if(mFocus.GetInteractionType() == Interactable.Type.Gathering)
             {
                 return true;
             }
@@ -403,17 +431,45 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            if(mEquipToolId == interaction.GetAvailableToolId())
+            if(mEquipToolId == mFocus.GetAvailableToolId())
             {
                 return true;
             }
             else
             {
-                Debug.LogFormat("tool id : {0}가 필요합니다.", interaction.GetAvailableToolId());
+                Debug.LogFormat("tool id : {0}가 필요합니다.", mFocus.GetAvailableToolId());
                 return false;
             }
         }
     }
+
+    public void InteractAction()
+    {
+        
+        Interactable.Type type = mFocus.GetInteractionType();
+
+        switch (type)
+        {
+            case Interactable.Type.Farming:
+                mAnim.SetTrigger("Farming");
+                break;
+            case Interactable.Type.Fishing:
+                mState = State.Fishing;
+                mAnim.SetTrigger("Fishing");
+                break;
+            case Interactable.Type.Mining:
+                mAnim.SetTrigger("Mining");
+                break;
+            case Interactable.Type.Crafting:
+                mAnim.SetTrigger("Hammering");
+                break;
+            case Interactable.Type.Gathering:
+                mAnim.SetTrigger("Gathering");
+                break;
+        }
+    }
+
+
 
     public void InteractionAction()
     {

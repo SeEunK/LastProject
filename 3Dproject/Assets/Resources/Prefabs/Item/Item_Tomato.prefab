@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mType: 1
   mId: 101
+  mItemData: {fileID: 11400000, guid: 0dcf61415dcfd3144ab840429dd2ec1f, type: 2}
 --- !u!1001 &894388389180475719
 PrefabInstance:
   m_ObjectHideFlags: 0
