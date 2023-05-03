@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6824038916852034647}
   m_Layer: 0
   m_Name: Item_Apple
-  m_TagString: Tool
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,7 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mType: 1
-  mId: 102
+  mId: 301
+  mItemData: {fileID: 11400000, guid: a892e8719337b244591fcfd8aee65d17, type: 2}
 --- !u!1001 &1417222649428654603
 PrefabInstance:
   m_ObjectHideFlags: 0

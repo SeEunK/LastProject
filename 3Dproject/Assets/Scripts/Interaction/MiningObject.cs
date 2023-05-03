@@ -85,7 +85,7 @@ public class MiningObject : Interactable
     }
     public override void Interact()
     {
-        Debug.Log("mining " + transform.name);
+        base.Interact();
 
         if (mResultItemCount > 0)
         {

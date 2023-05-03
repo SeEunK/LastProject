@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1598586540682130048}
   m_Layer: 0
   m_Name: Item_Banana
-  m_TagString: Tool
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mType: 1
   mId: 100
+  mItemData: {fileID: 11400000, guid: ff9a695bb1c761742806f555e7993f98, type: 2}
 --- !u!1001 &3825255360101316590
 PrefabInstance:
   m_ObjectHideFlags: 0

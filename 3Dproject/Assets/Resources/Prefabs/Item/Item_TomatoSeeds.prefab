@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 80782484280554214}
   m_Layer: 0
   m_Name: Item_TomatoSeeds
-  m_TagString: Tool
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mType: 1
   mId: 200
+  mItemData: {fileID: 11400000, guid: 850324e79a35b0a4bbfa60d70c7b2d5f, type: 2}
 --- !u!1 &1139178514197850322
 GameObject:
   m_ObjectHideFlags: 0

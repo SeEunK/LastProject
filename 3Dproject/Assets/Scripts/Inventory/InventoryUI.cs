@@ -5,7 +5,6 @@ public class InventoryUI : MonoBehaviour
     //Inventory mInventory;
 
     public Transform mInventoryGrid;
-   
 
     private InventorySlot[] mSlots;
 

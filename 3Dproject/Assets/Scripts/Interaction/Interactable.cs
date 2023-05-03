@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public enum Type { Mining, Fishing, Farming, Gathering, Crafting }
+    public enum Type { Mining, Fishing, Farming, Gathering, Crafting, Picking}
 
     [SerializeField]
     private Type mType;
@@ -16,12 +16,17 @@ public class Interactable : MonoBehaviour
     public Transform mPlayer;
 
     [SerializeField]
+    private bool mIsRequiredIdCheck = false;
+    [SerializeField]
     private int mAvailableToolId = -1;
 
-    //private void Awake()
-    //{
-    //    mPlayer = GameObject.FindWithTag("Player").transform;
-    //}
+    private void Awake()
+    {
+       if(mAvailableToolId != -1)
+        {
+            mIsRequiredIdCheck = true;
+        }
+    }
 
     private void Update()
     {
@@ -41,9 +46,13 @@ public class Interactable : MonoBehaviour
 
     public virtual void Interact()
     {
-        Debug.Log("interaction with "+ transform.name);
-      
+        //Debug.Log("interaction with "+ transform.name);
 
+    }
+
+    public bool IsRequiredIdCheck()
+    {
+        return mIsRequiredIdCheck;
     }
 
     public void OnFocused(Transform playerTransform)
@@ -82,6 +91,10 @@ public class Interactable : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if(mInteractionTransform == null)
+        {
+            mInteractionTransform = transform;
+        }
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(mInteractionTransform.position, mRadius);
     }

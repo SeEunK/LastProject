@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GatheringObject : Interactable
+public class FishingObject : Interactable
 {
     public GameObject mResultItem = null;
 
@@ -87,14 +87,13 @@ public class GatheringObject : Interactable
 
     public override void Interact()
     {
-
+        base.Interact();
         if (mResultItemCount > 0)
         {
             if (mResultItem != null)
             {
                 Vector3 newPos = new Vector3(mPlayer.position.x + 1.0f, mPlayer.position.y + 1.0f, mPlayer.position.z + 1.0f);
                 Instantiate(mResultItem, newPos, transform.rotation);
-                //other.GetComponent<PlayerController>().SetGatheringItem(gameObject);
 
 
             }

@@ -95,6 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mType: 0
   mId: 1
+  mItemData: {fileID: 11400000, guid: fc571c616025007479360943b196f4b5, type: 2}
 --- !u!1 &8647497185717562558
 GameObject:
   m_ObjectHideFlags: 0

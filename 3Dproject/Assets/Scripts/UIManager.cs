@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour
     public Image mEquipTool = null;
 
     public GameObject mInventoryUI;
+    
 
     public void Awake()
     {
@@ -33,12 +35,13 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    
+
     private void Update()
     {
         if (Input.GetButtonDown("Inventory"))
         {
             mInventoryUI.SetActive(!mInventoryUI.activeSelf);
+            
         }
     }
     public void Init()
@@ -95,5 +98,14 @@ public class UIManager : MonoBehaviour
     public void Save()
     {
         DataManager.instance.SaveData();
+    }
+
+    public bool IsInventoryUIOpen()
+    {
+        if (mInventoryUI.activeSelf)
+        {
+            return true;
+        }
+        return false;
     }
 }

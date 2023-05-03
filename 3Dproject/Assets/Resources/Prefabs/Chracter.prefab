@@ -409,6 +409,7 @@ MonoBehaviour:
   mTurnSpeed: 40
   gravity: 20
   mJumpForce: 10
+  mAutoMovePos: []
   mTools:
   - {fileID: 5655412648082208829}
   - {fileID: 8240073275720272061}
@@ -418,6 +419,8 @@ MonoBehaviour:
   mPickItemPos: {fileID: 5262035762054557839}
   mIsJump: 0
   mIsCarryItem: 0
+  mFocus: {fileID: 0}
+  mStopDistance: 0
 --- !u!1001 &7755457726037587526
 PrefabInstance:
   m_ObjectHideFlags: 0

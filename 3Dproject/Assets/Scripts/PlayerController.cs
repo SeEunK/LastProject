@@ -1,7 +1,6 @@
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour {
 
@@ -181,8 +180,9 @@ public class PlayerController : MonoBehaviour {
         {
             UnEquipItem();
         }
-
-        if (Input.GetMouseButtonDown(0) && !mIsAutoMove && !mIsJump)
+      
+       
+        if (Input.GetMouseButtonDown(0) && !mIsAutoMove && !mIsJump && !UIManager.Instance.IsInventoryUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !UIManager.Instance.IsInventoryUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -387,7 +387,7 @@ public class PlayerController : MonoBehaviour {
 
                 if (CheckEquipItem())
                 {
-                    InteractionAction();
+                    //InteractionAction();
                     
                 }
                 else
@@ -418,29 +418,17 @@ public class PlayerController : MonoBehaviour {
 
     public bool CheckEquipItem()
     {
-        
-        //Interaction interaction = mDetectedObject.GetComponent<Interaction>();
-        
-        if (mEquipTool == null)
+
+        if (mEquipToolId == mFocus.GetAvailableToolId())
         {
-            if(mFocus.GetInteractionType() == Interactable.Type.Gathering)
-            {
-                return true;
-            }
-            return false;
+            return true;
         }
         else
         {
-            if(mEquipToolId == mFocus.GetAvailableToolId())
-            {
-                return true;
-            }
-            else
-            {
-                Debug.LogFormat("tool id : {0}가 필요합니다.", mFocus.GetAvailableToolId());
-                return false;
-            }
+            Debug.LogFormat("tool id : {0}가 필요합니다.", mFocus.GetAvailableToolId());
+            return false;
         }
+
     }
 
     public void InteractAction()
@@ -466,36 +454,39 @@ public class PlayerController : MonoBehaviour {
             case Interactable.Type.Gathering:
                 mAnim.SetTrigger("Gathering");
                 break;
-        }
-    }
-
-
-
-    public void InteractionAction()
-    {
-        Interaction interaction = mDetectedObject.GetComponent<Interaction>();
-        Interaction.Type type = interaction.GetInteractionType();
-
-        switch(type)
-        {
-            case Interaction.Type.Farming:
-                mAnim.SetTrigger("Farming");
-                break;
-            case Interaction.Type.Fishing:
-                mState = State.Fishing;
-                mAnim.SetTrigger("Fishing");
-                break;
-            case Interaction.Type.Mining:
-                mAnim.SetTrigger("Mining");
-                break;
-            case Interaction.Type.Crafting:
-                mAnim.SetTrigger("Hammering");
-                break;
-            case Interaction.Type.Gathering:
-                mAnim.SetTrigger("Gathering");
+            case Interactable.Type.Picking:
+                //mAnim.SetTrigger("Gathering");
                 break;
         }
     }
+
+
+
+    //public void InteractionAction()
+    //{
+    //    Interaction interaction = mDetectedObject.GetComponent<Interaction>();
+    //    Interaction.Type type = interaction.GetInteractionType();
+
+    //    switch(type)
+    //    {
+    //        case Interaction.Type.Farming:
+    //            mAnim.SetTrigger("Farming");
+    //            break;
+    //        case Interaction.Type.Fishing:
+    //            mState = State.Fishing;
+    //            mAnim.SetTrigger("Fishing");
+    //            break;
+    //        case Interaction.Type.Mining:
+    //            mAnim.SetTrigger("Mining");
+    //            break;
+    //        case Interaction.Type.Crafting:
+    //            mAnim.SetTrigger("Hammering");
+    //            break;
+    //        case Interaction.Type.Gathering:
+    //            mAnim.SetTrigger("Gathering");
+    //            break;
+    //    }
+    //}
 
 
     public void ItemPickUp()
@@ -559,16 +550,6 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        if (other.gameObject.CompareTag("Item"))
-        {
-            mDetectedObject = other.gameObject;
-            Debug.Log(mDetectedObject.name);
-        }
-
-        if (other.gameObject.CompareTag("Interaction"))
-        {
-            mDetectedObject = other.gameObject;
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -579,16 +560,6 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        if (other.gameObject.CompareTag("Item"))
-        {
-            mDetectedObject = null;
-            
-        }
-
-        if (other.gameObject.CompareTag("Interaction"))
-        {
-            mDetectedObject = null;
-        }
     }
 
     public void ToolTriggerEnableOn()

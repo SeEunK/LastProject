@@ -12,6 +12,7 @@ public class Item : MonoBehaviour
     [SerializeField]
     private ItemData mItemData;
 
+
     public Type GetItemType()
     {
         return mType;

@@ -5001,6 +5001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mType: 0
   mId: 2
+  mItemData: {fileID: 11400000, guid: d62946e2d0d5e804ba3a8b8306ffabcf, type: 2}
 --- !u!1001 &7600970665114068300
 PrefabInstance:
   m_ObjectHideFlags: 0

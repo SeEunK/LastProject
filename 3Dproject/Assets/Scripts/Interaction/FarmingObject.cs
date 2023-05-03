@@ -93,7 +93,7 @@ public class FarmingObject : Interactable
     }
     public override void Interact()
     {
-
+        base.Interact();
         switch (mState)
         {
             case State.Full:

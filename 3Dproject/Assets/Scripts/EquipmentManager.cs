@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
@@ -17,10 +18,14 @@ public class EquipmentManager : MonoBehaviour
 
     private Equipment[] mCurrentEquipment;
 
+
+    public delegate void OnEquipmentChanged(Equipment newItem, Equipment prevItem);
+    public OnEquipmentChanged onEquipmentChanged;
+
     private void Start()
     {
-        int numSlots = System.Enum.GetNames(typeof(EquipmentSlot)).Length;
-        mCurrentEquipment= new Equipment[numSlots];
+        int numEquipSlots = System.Enum.GetNames(typeof(EquipmentSlot)).Length;
+        mCurrentEquipment= new Equipment[numEquipSlots];
     }
 
     public void Equip(Equipment newItem)
@@ -34,6 +39,12 @@ public class EquipmentManager : MonoBehaviour
             prevItem = mCurrentEquipment[slotIndex];
             Inventory.Instance.Add(prevItem);
         }
+
+        if(onEquipmentChanged!= null)
+        {
+            onEquipmentChanged.Invoke(newItem, prevItem);
+        }
+
         mCurrentEquipment[slotIndex] = newItem;
     }
 
@@ -45,6 +56,12 @@ public class EquipmentManager : MonoBehaviour
             Inventory.Instance.Add(prevItem);
 
             mCurrentEquipment[slotIndex] = null;
+
+            if (onEquipmentChanged != null)
+            {
+                onEquipmentChanged.Invoke(null, prevItem);
+            }
+
         }
     }
 
