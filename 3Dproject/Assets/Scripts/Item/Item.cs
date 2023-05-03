@@ -6,8 +6,7 @@ public class Item : MonoBehaviour
 {
     public enum Type { Equipment, Item }
     public Type mType;
-    [SerializeField]
-    private int mId = -1;
+
 
     [SerializeField]
     private ItemData mItemData;
@@ -19,10 +18,7 @@ public class Item : MonoBehaviour
     }
 
 
-    public int GetItemId() 
-    { 
-        return mId; 
-    }
+
 
     public ItemData GetItemData()
     {

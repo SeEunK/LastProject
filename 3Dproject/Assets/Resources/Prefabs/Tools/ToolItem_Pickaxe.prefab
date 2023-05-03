@@ -4918,7 +4918,7 @@ GameObject:
   - component: {fileID: 8189102969207054013}
   - component: {fileID: 8189102969207054012}
   - component: {fileID: 8189102969207054011}
-  - component: {fileID: 8189102969207054010}
+  - component: {fileID: 8189102970139092563}
   m_Layer: 0
   m_Name: ToolItem_Pickaxe
   m_TagString: Tool
@@ -4987,7 +4987,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8189102969207054010
+--- !u!114 &8189102970139092563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4996,12 +4996,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8189102969207054009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2516e689b2bf8f409f18f969efa178c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6688e1aca3d0d1f4ea061f13da977a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mType: 0
-  mId: 4
-  mItemData: {fileID: 11400000, guid: 6764cddb7cb3c0e498467e03375f09d0, type: 2}
+  mType: 5
+  mRadius: 1.5
+  mInteractionTransform: {fileID: 8189102969207054014}
+  mPlayer: {fileID: 0}
+  mIsRequiredIdCheck: 0
+  mAvailableToolId: -1
+  mItemData: {fileID: 11400000, guid: fb863ab7505ff0846914819cdf2623f6, type: 2}
 --- !u!1001 &3533845582300035784
 PrefabInstance:
   m_ObjectHideFlags: 0

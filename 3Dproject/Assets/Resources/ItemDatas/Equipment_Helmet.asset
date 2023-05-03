@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8a385edd77ca84cbf651d519460589, type: 3}
   m_Name: Equipment_Helmet
   m_EditorClassIdentifier: 
+  mType: 1
   mName: Helmet
   mIcon: {fileID: 21300000, guid: cdb88fdb0cf46b244a667edaff21c7df, type: 3}
   mIsDefaultItem: 0
   mEquipSlot: 0
   mArmorModifier: 2
   mDamageModifier: 1
+  mToolId: 0

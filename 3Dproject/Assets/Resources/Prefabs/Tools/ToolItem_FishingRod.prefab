@@ -4918,7 +4918,7 @@ GameObject:
   - component: {fileID: 7600970664749109736}
   - component: {fileID: 7600970664749109739}
   - component: {fileID: 7600970664749109738}
-  - component: {fileID: 7600970664749109733}
+  - component: {fileID: 8841300830818642618}
   m_Layer: 0
   m_Name: ToolItem_FishingRod
   m_TagString: Tool
@@ -4987,7 +4987,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7600970664749109733
+--- !u!114 &8841300830818642618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4996,12 +4996,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7600970664749109732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2516e689b2bf8f409f18f969efa178c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6688e1aca3d0d1f4ea061f13da977a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mType: 0
-  mId: 2
-  mItemData: {fileID: 11400000, guid: d62946e2d0d5e804ba3a8b8306ffabcf, type: 2}
+  mType: 5
+  mRadius: 1.5
+  mInteractionTransform: {fileID: 7600970664749109737}
+  mPlayer: {fileID: 0}
+  mIsRequiredIdCheck: 0
+  mAvailableToolId: -1
+  mItemData: {fileID: 11400000, guid: 2b685822ea0ddb846a05a6e37649e61f, type: 2}
 --- !u!1001 &7600970665114068300
 PrefabInstance:
   m_ObjectHideFlags: 0

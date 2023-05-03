@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8a385edd77ca84cbf651d519460589, type: 3}
   m_Name: Equipment_Chest
   m_EditorClassIdentifier: 
+  mType: 1
   mName: Chest
   mIcon: {fileID: 21300000, guid: f6475539e36d61140b589534eff2c66c, type: 3}
   mIsDefaultItem: 0
   mEquipSlot: 1
   mArmorModifier: 4
   mDamageModifier: 2
+  mToolId: 0

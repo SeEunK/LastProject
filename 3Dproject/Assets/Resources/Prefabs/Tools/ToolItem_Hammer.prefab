@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 6607590073418448257}
   - component: {fileID: 6607590073418448286}
   - component: {fileID: 6607590073418448287}
-  - component: {fileID: 6607590073418448284}
+  - component: {fileID: 8072972864765685793}
   m_Layer: 0
   m_Name: ToolItem_Hammer
   m_TagString: Tool
@@ -175,7 +175,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6607590073418448284
+--- !u!114 &8072972864765685793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,12 +184,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6607590073418448285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2516e689b2bf8f409f18f969efa178c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6688e1aca3d0d1f4ea061f13da977a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mType: 0
-  mId: 3
-  mItemData: {fileID: 11400000, guid: 65b60c67106d57748808b05ad264c46d, type: 2}
+  mType: 5
+  mRadius: 1.5
+  mInteractionTransform: {fileID: 6607590073418448256}
+  mPlayer: {fileID: 0}
+  mIsRequiredIdCheck: 0
+  mAvailableToolId: -1
+  mItemData: {fileID: 11400000, guid: c1736e2a6dedd4a4aa9388618b91422b, type: 2}
 --- !u!1 &6607590073770608769
 GameObject:
   m_ObjectHideFlags: 0

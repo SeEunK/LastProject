@@ -120,10 +120,10 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (Input.GetButtonDown("Interaction") && !mIsJump)
-        {
-            Interation();
-        }
+        //if (Input.GetButtonDown("Interaction") && !mIsJump)
+        //{
+        //    Interation();
+        //}
 
         if(Input.GetButtonDown("Drop") && mState == State.Carry)
         {
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !UIManager.Instance.IsInventoryUIOpen())
+        if (Input.GetMouseButtonDown(1) && !mIsJump && !UIManager.Instance.IsInventoryUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -335,68 +335,75 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void Interation()
-    {
+    //public void Interation()
+    //{
      
-        if (mDetectedObject != null)
-        {
-            if (mDetectedObject.CompareTag("Tool"))
-            {
+    //    if (mDetectedObject != null)
+    //    {
+    //        if (mDetectedObject.CompareTag("Tool"))
+    //        {
 
-                Item item = mDetectedObject.GetComponent<Item>();
+    //            Equipment item = mDetectedObject.GetComponent<Equipment>();
 
 
-                int toolIndex = item.GetItemId() - 1;
-                mHasTools[toolIndex] = true;
+    //            int toolIndex = item.GetToolId() - 1;
+    //            mHasTools[toolIndex] = true;
 
-                bool getItem = Inventory.Instance.Add(item.GetItemData());
-
-                if (getItem)
-                {
-                    Destroy(mDetectedObject);
-                    mDetectedObject = null;
-                }
-
-            }
-            else if (mDetectedObject.CompareTag("Equipment"))
-            {
-
-            }
-            else if (mDetectedObject.CompareTag("Item"))
-            {
-                Debug.Log("detected item");
-                if (mEquipTool != null)
-                {
-                    Debug.Log("장비 장착중");
-                    mDetectedObject = null;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("장비 미장착 픽업!");
-                    mPickUpItem = mDetectedObject;
-                    mAnim.SetTrigger("PickUp");
-                    mDetectedObject = null;
-                }
+    //            ItemData itemData =  (ItemData)item;
                 
-            }
+    //            bool getItem = Inventory.Instance.Add(itemData);
 
-            else if (mDetectedObject.CompareTag("Interaction"))
-            {
-                Debug.Log("detected Interaction");
+    //            if (getItem)
+    //            {
+    //                Destroy(mDetectedObject);
+    //                mDetectedObject = null;
+    //            }
 
-                if (CheckEquipItem())
-                {
-                    //InteractionAction();
+    //        }
+    //        else if (mDetectedObject.CompareTag("Equipment"))
+    //        {
+
+    //        }
+    //        else if (mDetectedObject.CompareTag("Item"))
+    //        {
+    //            Debug.Log("detected item");
+    //            if (mEquipTool != null)
+    //            {
+    //                Debug.Log("장비 장착중");
+    //                mDetectedObject = null;
+    //                return;
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("장비 미장착 픽업!");
+    //                mPickUpItem = mDetectedObject;
+    //                mAnim.SetTrigger("PickUp");
+    //                mDetectedObject = null;
+    //            }
+                
+    //        }
+
+    //        else if (mDetectedObject.CompareTag("Interaction"))
+    //        {
+    //            Debug.Log("detected Interaction");
+
+    //            if (CheckEquipItem())
+    //            {
+    //                //InteractionAction();
                     
-                }
-                else
-                {
-                    Debug.Log("Interaction tool mismatch");
-                } 
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("Interaction tool mismatch");
+    //            } 
 
-            }
-        }
+    //        }
+    //    }
+    //}
+
+    public void SetHasTool(int toolIndex, bool value)
+    {
+        mHasTools[toolIndex] = value;
     }
 
     public void Interact()

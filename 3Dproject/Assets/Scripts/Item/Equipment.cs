@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public enum EquipmentSlot { Head, Chest, Feet, Weapon, Tool}
@@ -12,12 +13,18 @@ public class Equipment : ItemData
 
     public int mArmorModifier;
     public int mDamageModifier;
+    public int mToolId;
 
     public override void Use()
     {
         base.Use();
         EquipmentManager.Instance.Equip(this);
         RemoveFromInventory();
+    }
+
+    public int GetToolId()
+    {
+        return mToolId;
     }
 
 

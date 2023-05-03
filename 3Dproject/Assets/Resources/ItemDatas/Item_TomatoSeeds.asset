@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00924cadb32b4a540963a9401ccbf0cf, type: 3}
   m_Name: Item_TomatoSeeds
   m_EditorClassIdentifier: 
+  mType: 3
   mName: TomatoSeeds
   mIcon: {fileID: 21300000, guid: 952284c6d2fb880469cf200fbd079979, type: 3}
   mIsDefaultItem: 0

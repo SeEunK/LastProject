@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8647497184867971117}
   - component: {fileID: 8647497184867971116}
   - component: {fileID: 8647497184867971155}
-  - component: {fileID: 8647497184867971154}
+  - component: {fileID: 8647497186441497455}
   m_Layer: 0
   m_Name: ToolItem_Plow
   m_TagString: Tool
@@ -81,7 +81,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8647497184867971154
+--- !u!114 &8647497186441497455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,12 +90,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8647497184867971152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2516e689b2bf8f409f18f969efa178c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6688e1aca3d0d1f4ea061f13da977a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mType: 0
-  mId: 1
-  mItemData: {fileID: 11400000, guid: fc571c616025007479360943b196f4b5, type: 2}
+  mType: 5
+  mRadius: 1.5
+  mInteractionTransform: {fileID: 8647497184867971153}
+  mPlayer: {fileID: 0}
+  mIsRequiredIdCheck: 0
+  mAvailableToolId: -1
+  mItemData: {fileID: 11400000, guid: 26193d978369afe4ab75f252765d50df, type: 2}
 --- !u!1 &8647497185717562558
 GameObject:
   m_ObjectHideFlags: 0
