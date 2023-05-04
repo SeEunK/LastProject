@@ -67,7 +67,6 @@ public class MiningObject : Interactable
             }
         }
 
-
     }
 
     public void SetState(State state)

@@ -19,7 +19,9 @@ public class UIManager : MonoBehaviour
     public Image mEquipTool = null;
 
     public GameObject mInventoryUI;
-    
+
+    public GameObject mItemInfoPopup;
+    public GameObject mChest;
 
     public void Awake()
     {
@@ -108,4 +110,28 @@ public class UIManager : MonoBehaviour
         }
         return false;
     }
+
+    public bool IsChestUIOpen()
+    {
+        if(mChest.activeSelf) 
+        { 
+            return true; 
+        }
+        return false;
+    }
+
+    public void ItemInfoPopupOpen(ItemData item, ItemInfoUI.Type type, GameObject openPath)
+    {
+        ItemInfoUI itemInfo = mItemInfoPopup.GetComponent<ItemInfoUI>();
+        itemInfo.SetItemInfo(item, type, openPath);
+        mItemInfoPopup.SetActive(true);
+    }
+
+    public void ChestUIOpen(StorageObject storage)
+    {
+        ChestUI chestUI = mChest.GetComponent<ChestUI>();
+        chestUI.SetChestUI(storage);
+        mChest.SetActive(true);
+    }
 }
+

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public enum Type { Mining, Fishing, Farming, Gathering, Crafting, Picking}
+    public enum Type { Mining, Fishing, Farming, Gathering, Crafting, Picking, Storage}
 
     [SerializeField]
     private Type mType;

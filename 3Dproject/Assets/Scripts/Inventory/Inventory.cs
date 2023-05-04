@@ -10,9 +10,9 @@ public class Inventory : MonoBehaviour
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
 
-
     private int mInventoryCount = 20;
     public List<ItemData>  mItems= new List<ItemData>();
+
     public void Awake()
     {
         if (Instance == null)

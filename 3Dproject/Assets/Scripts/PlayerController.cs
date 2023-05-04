@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !mIsJump && !UIManager.Instance.IsInventoryUIOpen())
+        if (Input.GetMouseButtonDown(1) && !mIsJump && !UIManager.Instance.IsInventoryUIOpen() && !UIManager.Instance.IsChestUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -235,7 +235,6 @@ public class PlayerController : MonoBehaviour {
                     {
                         mIsAutoMove = false;
                         Interact();
-                        //interactable.Interact();
                        
                     }
                 }
@@ -469,47 +468,6 @@ public class PlayerController : MonoBehaviour {
 
 
 
-    //public void InteractionAction()
-    //{
-    //    Interaction interaction = mDetectedObject.GetComponent<Interaction>();
-    //    Interaction.Type type = interaction.GetInteractionType();
-
-    //    switch(type)
-    //    {
-    //        case Interaction.Type.Farming:
-    //            mAnim.SetTrigger("Farming");
-    //            break;
-    //        case Interaction.Type.Fishing:
-    //            mState = State.Fishing;
-    //            mAnim.SetTrigger("Fishing");
-    //            break;
-    //        case Interaction.Type.Mining:
-    //            mAnim.SetTrigger("Mining");
-    //            break;
-    //        case Interaction.Type.Crafting:
-    //            mAnim.SetTrigger("Hammering");
-    //            break;
-    //        case Interaction.Type.Gathering:
-    //            mAnim.SetTrigger("Gathering");
-    //            break;
-    //    }
-    //}
-
-
-    public void ItemPickUp()
-    {
-        if (mPickUpItem != null)
-        {
-            Item item = mPickUpItem.GetComponent<Item>();
-            item.PickUp(mPickItemPos);
-            //mItemList.Add(item);
-            Inventory.Instance.Add(item.GetItemData());
-            mState = State.Carry;
-           
-        
-            //mIsCarryItem = true;
-        }
-    }
 
     public void UnEquipItem()
     {
@@ -523,20 +481,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void ItemPutDown()
-    {
-        if(mPickUpItem != null)
-        {
-            Vector3 dropPos = mPickItemPos.position;
-            Item item = mPickUpItem.GetComponent<Item>();
-            //mItemList.Remove(item);
-            Inventory.Instance.Remove(item.GetItemData());
-            item.Drop(dropPos);
-            mState = State.None;
-            //mIsCarryItem = false;
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -547,6 +491,33 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // ========= v 삭제 예정  v==================== 
+    public void ItemPickUp()
+    {
+        if (mPickUpItem != null)
+        {
+            Item item = mPickUpItem.GetComponent<Item>();
+            item.PickUp(mPickItemPos);
+            //mItemList.Add(item);
+            Inventory.Instance.Add(item.GetItemData());
+            mState = State.Carry;
+
+            //mIsCarryItem = true;
+        }
+    }
+    public void ItemPutDown()
+    {
+        if (mPickUpItem != null)
+        {
+            Vector3 dropPos = mPickItemPos.position;
+            Item item = mPickUpItem.GetComponent<Item>();
+            //mItemList.Remove(item);
+            Inventory.Instance.Remove(item.GetItemData());
+            item.Drop(dropPos);
+            mState = State.None;
+            //mIsCarryItem = false;
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -565,7 +536,6 @@ public class PlayerController : MonoBehaviour {
         {
             mDetectedObject = null;
         }
-
 
     }
 
