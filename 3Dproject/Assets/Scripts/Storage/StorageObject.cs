@@ -55,6 +55,7 @@ public class StorageObject : Interactable
 
     public void CloseAnimPlay()
     {
+        Debug.Log("close anim play");
         mAnimator.SetTrigger("ChestClose");
     }
     public void OpenAnimPlay()

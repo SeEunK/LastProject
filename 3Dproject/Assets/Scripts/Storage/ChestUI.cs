@@ -48,4 +48,14 @@ public class ChestUI : MonoBehaviour
         }
     }
 
+
+    public void OnCloseChestUI()
+    {
+        if (UIManager.Instance.IsItemInfoPopupOpen())
+        {
+            UIManager.Instance.ItemInfoPopupClose();
+        }
+        mStorage.CloseAnimPlay();
+        this.gameObject.SetActive(false);
+    }
 }

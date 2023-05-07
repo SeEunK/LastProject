@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour {
         }
       
        
-        if (Input.GetMouseButtonDown(0) && !mIsAutoMove && !mIsJump && !UIManager.Instance.IsInventoryUIOpen())
+        if (Input.GetMouseButtonDown(0) && !mIsAutoMove && !mIsJump && !UIManager.Instance.IsUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !mIsJump && !UIManager.Instance.IsInventoryUIOpen() && !UIManager.Instance.IsChestUIOpen())
+        if (Input.GetMouseButtonDown(1) && !mIsJump && !UIManager.Instance.IsUIOpen())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

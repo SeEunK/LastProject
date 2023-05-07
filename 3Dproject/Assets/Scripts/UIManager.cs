@@ -120,6 +120,27 @@ public class UIManager : MonoBehaviour
         return false;
     }
 
+    public bool IsUIOpen()
+    {
+        if (IsChestUIOpen() || IsInventoryUIOpen() || IsItemInfoPopupOpen())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool IsItemInfoPopupOpen()
+    {
+        if (mItemInfoPopup.activeSelf)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void ItemInfoPopupOpen(ItemData item, ItemInfoUI.Type type, GameObject openPath)
     {
         ItemInfoUI itemInfo = mItemInfoPopup.GetComponent<ItemInfoUI>();
@@ -133,5 +154,22 @@ public class UIManager : MonoBehaviour
         chestUI.SetChestUI(storage);
         mChest.SetActive(true);
     }
+
+    public void ItemInfoPopupClose()
+    {
+        ItemInfoUI itemInfo = mItemInfoPopup.GetComponent<ItemInfoUI>();
+        itemInfo.OnClosePopup();
+    }
+
+    public void ChestUIClose()
+    {
+        if (IsItemInfoPopupOpen())
+        {
+            ItemInfoPopupClose();
+        }
+        ChestUI chestUI = mChest.GetComponent<ChestUI>();
+        chestUI.OnCloseChestUI();
+    }
+
 }
 
