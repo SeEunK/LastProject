@@ -7,8 +7,8 @@ public class StorageObject : Interactable
     private int mStorageCount = 15;
     public List<ItemData> mStorageItems = new List<ItemData>();
 
-    public delegate void OnItemChanged();
-    public OnItemChanged onItemChangedCallback;
+    public delegate void OnStorageItemChanged();
+    public OnStorageItemChanged onStorageItemChangedCallback;
 
     public Animator mAnimator;
 
@@ -28,9 +28,9 @@ public class StorageObject : Interactable
             }
             mStorageItems.Add(item);
 
-            if (onItemChangedCallback != null)
+            if (onStorageItemChangedCallback != null)
             {
-                onItemChangedCallback.Invoke();
+                onStorageItemChangedCallback.Invoke();
             }
         }
         return true;
@@ -38,9 +38,9 @@ public class StorageObject : Interactable
     public void Remove(ItemData item)
     {
         mStorageItems.Remove(item);
-        if (onItemChangedCallback != null)
+        if (onStorageItemChangedCallback != null)
         {
-            onItemChangedCallback.Invoke();
+            onStorageItemChangedCallback.Invoke();
         }
     }
 

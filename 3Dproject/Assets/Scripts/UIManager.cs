@@ -20,8 +20,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject mInventoryUI;
 
-    public GameObject mItemInfoPopup;
-    public GameObject mChest;
+    public GameObject mItemInfoPopupUI;
+    public GameObject mChestUI;
 
     public void Awake()
     {
@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour
 
     public bool IsChestUIOpen()
     {
-        if(mChest.activeSelf) 
+        if(mChestUI.activeSelf) 
         { 
             return true; 
         }
@@ -134,30 +134,31 @@ public class UIManager : MonoBehaviour
 
     public bool IsItemInfoPopupOpen()
     {
-        if (mItemInfoPopup.activeSelf)
+        if (mItemInfoPopupUI.activeSelf)
         {
             return true;
         }
         return false;
     }
 
-    public void ItemInfoPopupOpen(ItemData item, ItemInfoUI.Type type, GameObject openPath)
+    public void ItemInfoPopupOpen(ItemData item, ItemInfoUI.Type type)
     {
-        ItemInfoUI itemInfo = mItemInfoPopup.GetComponent<ItemInfoUI>();
-        itemInfo.SetItemInfo(item, type, openPath);
-        mItemInfoPopup.SetActive(true);
+        ItemInfoUI itemInfo = mItemInfoPopupUI.GetComponent<ItemInfoUI>();
+        GameObject storage = mChestUI.GetComponent<ChestUI>().GetStorageObject();
+        itemInfo.SetItemInfo(item, type, storage);
+        mItemInfoPopupUI.SetActive(true);
     }
 
     public void ChestUIOpen(StorageObject storage)
     {
-        ChestUI chestUI = mChest.GetComponent<ChestUI>();
+        ChestUI chestUI = mChestUI.GetComponent<ChestUI>();
         chestUI.SetChestUI(storage);
-        mChest.SetActive(true);
+        mChestUI.SetActive(true);
     }
 
     public void ItemInfoPopupClose()
     {
-        ItemInfoUI itemInfo = mItemInfoPopup.GetComponent<ItemInfoUI>();
+        ItemInfoUI itemInfo = mItemInfoPopupUI.GetComponent<ItemInfoUI>();
         itemInfo.OnClosePopup();
     }
 
@@ -167,7 +168,7 @@ public class UIManager : MonoBehaviour
         {
             ItemInfoPopupClose();
         }
-        ChestUI chestUI = mChest.GetComponent<ChestUI>();
+        ChestUI chestUI = mChestUI.GetComponent<ChestUI>();
         chestUI.OnCloseChestUI();
     }
 

@@ -12,6 +12,7 @@ public class PlayerData
     public int level;
     public int coin;
     public int equipItem = -1;
+    public List<ItemData> items = new List<ItemData>();
 }
 
 public class DataManager : MonoBehaviour
@@ -38,8 +39,9 @@ public class DataManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
+        
         mPath = Application.persistentDataPath + "/Save";
+        
 
     }
 
@@ -68,6 +70,11 @@ public class DataManager : MonoBehaviour
     public void SetPlayerEquipItem(int index)
     {
         mNowPlayer.equipItem = index;
+    }
+
+    public void SetPlayerItem(ItemData item)
+    {
+        mNowPlayer.items.Add(item);
     }
 
     public int GetPlayerEquipItem()

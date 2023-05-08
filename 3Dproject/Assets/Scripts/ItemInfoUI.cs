@@ -19,7 +19,7 @@ public class ItemInfoUI : MonoBehaviour
 
     // 팝업을 호출한 게임오브젝트
     private GameObject mPopupOpenPath;
-
+ 
     public void SetItemInfo(ItemData item, Type type, GameObject openPath)
     {
         mItem = item;
@@ -73,7 +73,12 @@ public class ItemInfoUI : MonoBehaviour
      
         if (isAddComplete)
         {
-            // mPopupOpenPath. 
+            if (mPopupOpenPath != null)
+            {
+                StorageObject storage = mPopupOpenPath.GetComponent<StorageObject>();
+                storage.Remove(mItem);
+            }
+          
             Debug.LogFormat("info 팝업을 호출한 대상 : {0} 에서 item 제거 !", mPopupOpenPath.name);
         }
         else

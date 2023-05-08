@@ -14,7 +14,7 @@ public class ChestUI : MonoBehaviour
     void Start()
     {
          
-        mStorage.onItemChangedCallback += UpdateUI;
+        mStorage.onStorageItemChangedCallback += UpdateUI;
         mSlots = mChestSlotGrid.GetComponentsInChildren<ChestSlot>();
         if (mStorage.mStorageItems.Count > 0)
         {
@@ -29,6 +29,11 @@ public class ChestUI : MonoBehaviour
     
     }
 
+    public GameObject GetStorageObject()
+    {
+
+        return mStorage.gameObject;
+    }
 
 
 

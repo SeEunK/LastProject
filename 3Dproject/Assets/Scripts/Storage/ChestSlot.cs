@@ -6,7 +6,7 @@ public class ChestSlot : MonoBehaviour
 {
     public Image mIcon;
     private ItemData mItem;
-
+ 
 
     public void AddItem(ItemData newItem)
     {
@@ -29,7 +29,7 @@ public class ChestSlot : MonoBehaviour
         if (mItem != null)
         {
             // open item info popup ui 
-            UIManager.Instance.ItemInfoPopupOpen(mItem, ItemInfoUI.Type.Get, this.gameObject);
+            UIManager.Instance.ItemInfoPopupOpen(mItem, ItemInfoUI.Type.Get);
         }
     }
 }

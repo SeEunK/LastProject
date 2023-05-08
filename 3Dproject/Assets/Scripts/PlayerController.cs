@@ -120,10 +120,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        //if (Input.GetButtonDown("Interaction") && !mIsJump)
-        //{
-        //    Interation();
-        //}
+
 
         if(Input.GetButtonDown("Drop") && mState == State.Carry)
         {

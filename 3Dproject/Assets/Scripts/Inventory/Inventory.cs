@@ -1,5 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,6 +34,7 @@ public class Inventory : MonoBehaviour
                 return false;
             }
             mItems.Add(item);
+            DataManager.instance.SetPlayerItem(item);
 
             if(onItemChangedCallback != null)
             {
